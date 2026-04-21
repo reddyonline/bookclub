@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fairplay2026 - Official</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at top center, #102a5e 0%, #020617 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            padding-bottom: 50px; 
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* --- Logo Section --- */
+        .logo-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: clamp(34px, 8vw, 72px);
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #b8860b 0%, #ffd700 25%, #fff8dc 50%, #ffd700 75%, #b8860b 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.5));
+            animation: shine 3s linear infinite;
+        }
+
+        .logo-accent {
+            margin-top: 5px;
+            height: 4px;
+            width: 110%;
+            background: linear-gradient(90deg, transparent, #ffd700, #ffffff, #ffd700, transparent);
+            border-radius: 50%;
+            box-shadow: 0 0 15px #ffd700;
+        }
+
+        /* --- Tagline Section --- */
+        .tagline-container {
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: slideUpFade 1.2s ease-out;
+        }
+
+        .main-tagline {
+            font-size: clamp(20px, 4vw, 32px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .main-tagline span {
+            color: #ffd700;
+        }
+
+        .sub-tagline {
+            font-size: clamp(14px, 3vw, 18px);
+            font-weight: 400;
+            font-style: italic;
+            color: #d1d5db;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Live Users Counter --- */
+        .live-users-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 255, 0, 0.08);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+        }
+
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite ease-in-out; 
+        }
+
+        .live-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #e5e7eb;
+            letter-spacing: 1px;
+        }
+
+        .live-number {
+            color: #00ff00;
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        /* --- WhatsApp Button --- */
+        .wa-btn {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #ffd700;
+            padding: 15px 35px;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .wa-btn:hover {
+            background: #ffd700;
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        .wa-btn span {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffd700;
+            text-transform: uppercase;
+        }
+
+        .wa-btn:hover span { color: #000; }
+
+        .wa-icon {
+            width: 35px;
+            height: 35px;
+            fill: #ffd700;
+            transition: 0.3s;
+        }
+
+        .wa-btn:hover .wa-icon { fill: #000; }
+
+        /* --- Demo & Link Section --- */
+        .demo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 0 15px;
+        }
+
+        .demo-indicator {
+            color: #ffd700;
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: pulseText 1.5s infinite;
+        }
+
+        .arrow-down {
+            width: 0; 
+            height: 0; 
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid #ffd700;
+            margin-top: 5px;
+            animation: bounce 1s infinite;
+        }
+
+        .site-link {
+            text-decoration: none;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: 2px;
+            padding: 14px 40px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .site-link:hover {
+            color: #ffd700;
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* --- Demo Credentials Box --- */
+        .demo-credentials {
+            margin-top: 25px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: slideUpFade 1.2s ease-out;
+        }
+
+        .demo-title {
+            color: #ffd700;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .demo-detail {
+            color: #e5e7eb;
+            font-size: 16px;
+            margin: 6px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .demo-detail span {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* --- Referral Section (New) --- */
+        .referral-box {
+            margin-top: 20px;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 18px 25px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);
+            animation: slideUpFade 1.4s ease-out; /* Slight delay for cascading effect */
+        }
+
+        .referral-title {
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .referral-text {
+            color: #e5e7eb;
+            font-size: 15px;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+        }
+
+        .referral-bonus {
+            color: #00ff00; /* Green color to pop */
+            font-weight: 900;
+            font-size: 18px;
+            display: block;
+            margin-top: 8px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+            animation: livePulse 2s infinite ease-in-out;
+        }
+
+        /* --- Animations --- */
+        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+        @keyframes pulseText { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
+        @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes livePulse { 0% { opacity: 1; transform: scale(1); box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); } 50% { opacity: 0.6; transform: scale(0.95); box-shadow: 0 0 5px rgba(0, 255, 0, 0.2); } 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); } }
+
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            body { padding-top: 40px; }
+            .wa-btn { padding: 12px 25px; margin-bottom: 30px; }
+            .wa-btn span { font-size: 16px; }
+            .site-link { font-size: 16px; padding: 12px 25px; }
+            .demo-indicator { font-size: 13px; }
+            .live-text { font-size: 14px; }
+            .live-number { font-size: 16px; }
+            .demo-credentials { padding: 12px 20px; }
+            .demo-detail { font-size: 14px; }
+            .referral-title { font-size: 16px; }
+            .referral-text { font-size: 13px; }
+            .referral-bonus { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-container">
+        <div class="logo">Fairplay2026</div>
+        <div class="logo-accent"></div>
+    </div>
+
+    <div class="tagline-container">
+        <div class="main-tagline">Biggest <span>Cricket Book</span></div>
+        <div class="sub-tagline">Enjoy Seamless Cricket Experience</div>
+    </div>
+
+    <div class="live-users-box">
+        <div class="live-dot"></div>
+        <div class="live-text"><span class="live-number" id="user-count">4,000</span> Users Online</div>
+    </div>
+
+    <a href="https://wa.me/919759066418?text=Get%20New%20ID%20on%20Fairplay2026" class="wa-btn" target="_blank">
+        <svg class="wa-icon" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.395 0 .01 5.385.01 12.037c0 2.125.546 4.2 1.583 6.035L0 24l6.105-1.602a11.834 11.834 0 005.937 1.598h.005c6.654 0 12.04-5.385 12.04-12.037 0-3.22-1.252-6.248-3.528-8.523z"/>
+        </svg>
+        <span>Get New Id</span>
+    </a>
+
+    <div class="demo-section">
+        <div class="demo-indicator">
+            Click me for Demo
+            <div class="arrow-down"></div>
+        </div>
+        <a href="https://fairplay2026.com/exchange_sports/inplay" class="site-link" target="_blank">
+            fairplay2026.com
+        </a>
+        
+        <div class="demo-credentials">
+            <div class="demo-title">Demo ID</div>
+            <div class="demo-detail">Username - <span>Demo666</span></div>
+            <div class="demo-detail">Password - <span>Fairplay@123</span></div>
+        </div>
+
+        <div class="referral-box">
+            <div class="referral-title">Referral Income</div>
+            <div class="referral-text">
+                Share Your Referral with Your Friends and get Bonus on Deposit
+                <span class="referral-bonus">2% Upto 5%</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUsers = 4000;
+        const userCountElement = document.getElementById('user-count');
+
+        function updateLiveUsers() {
+            let change;
+            
+            if (currentUsers < 4500) {
+                change = Math.floor(Math.random() * 300) - 50; 
+            } else if (currentUsers > 14500) {
+                change = Math.floor(Math.random() * 300) - 250; 
+            } else {
+                change = Math.floor(Math.random() * 401) - 200; 
+            }
+
+            currentUsers += change;
+
+            if (currentUsers < 4000) {
+                currentUsers = 4000 + Math.floor(Math.random() * 100);
+            } else if (currentUsers > 15000) {
+                currentUsers = 15000 - Math.floor(Math.random() * 100);
+            }
+
+            userCountElement.innerText = currentUsers.toLocaleString();
+        }
+
+        setInterval(updateLiveUsers, 1500);
+    </script>
+
+</body>
+</html>
