@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fairplay2026 - Alpha VIP Terminal</title>
+    <title>Fairplay2026 | Alpha Terminal</title>
     <style>
-        /* High-Tech & Luxury Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=JetBrains+Mono:wght@400;700;800&display=swap');
+        /* Premium Space & Mono Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Montserrat:ital,wght@0,500;0,700;0,900;1,900&family=JetBrains+Mono:wght@400;700;800&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
 
         :root {
             --alpha-gold: #FFD700;
+            --alpha-gold-dark: #ccac00;
             --neon-cyan: #00E5FF;
             --alert-red: #FF3366;
             --alert-green: #00FF66;
-            --bg-base: #030712;
-            --bg-glass: rgba(15, 23, 42, 0.6);
+            --bg-base: #020617; /* Deepest slate */
+            --bg-glass: rgba(15, 23, 42, 0.4);
             --border-glass: rgba(255, 215, 0, 0.15);
-            --shadow-gold: 0 0 20px rgba(255, 215, 0, 0.2);
+            --shadow-gold: 0 0 25px rgba(255, 215, 0, 0.15);
             --font-data: 'JetBrains Mono', monospace;
             --font-head: 'Space Grotesk', sans-serif;
             --font-main: 'Montserrat', sans-serif;
@@ -27,145 +28,162 @@
         body {
             background-color: var(--bg-base);
             color: #f8fafc; font-family: var(--font-main);
-            display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
-            padding-bottom: 110px; position: relative; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; 
+            overflow-x: hidden; /* Fixes horizontal scroll bug */
+            padding-bottom: 110px; min-height: 100vh;
         }
 
-        /* --- 3D Fluid Background Orbs --- */
-        .orb-1 { position: fixed; top: -10%; left: -10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 60%); border-radius: 50%; filter: blur(40px); animation: floatOrb 15s infinite alternate; z-index: 0; }
-        .orb-2 { position: fixed; bottom: 10%; right: -20%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(0,229,255,0.1) 0%, transparent 60%); border-radius: 50%; filter: blur(50px); animation: floatOrb 20s infinite alternate-reverse; z-index: 0; }
+        /* --- Optimized Background Effects --- */
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,215,0,0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0,229,255,0.05) 0%, transparent 40%),
+                url('https://images.unsplash.com/photo-1540747169279-06ac92496a7d?q=80&w=1000');
+            background-size: cover; background-position: center; background-blend-mode: overlay;
+            opacity: 0.8; z-index: -2; pointer-events: none;
+        }
 
-        .app-layout { width: 100%; max-width: 540px; padding: 15px 20px; display: flex; flex-direction: column; gap: 20px; z-index: 1; position: relative; }
+        .grid-layer {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(255, 215, 0, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 215, 0, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1; pointer-events: none;
+        }
+
+        .app-layout { width: 100%; max-width: 540px; padding: 15px 20px; display: flex; flex-direction: column; gap: 22px; z-index: 1; }
+
+        /* --- GPU Accelerated Entrance Animations --- */
+        .anim-enter { opacity: 0; transform: translateY(20px); animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .d-1 { animation-delay: 0.1s; } .d-2 { animation-delay: 0.2s; } .d-3 { animation-delay: 0.3s; }
+        .d-4 { animation-delay: 0.4s; } .d-5 { animation-delay: 0.5s; }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
         /* --- Top Navigation --- */
         .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .brand-logo { font-size: 22px; font-weight: 900; font-style: italic; background: linear-gradient(to right, #fff, var(--alpha-gold)); -webkit-background-clip: text; color: transparent; letter-spacing: 1px; filter: drop-shadow(0 0 10px rgba(255,215,0,0.3)); }
-        .auth-btns { display: flex; gap: 10px; }
-        .btn-ghost { background: transparent; border: 1px solid var(--alpha-gold); color: var(--alpha-gold); padding: 6px 14px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
-        .btn-glow { background: var(--alpha-gold); border: none; color: #000; padding: 6px 14px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; box-shadow: var(--shadow-gold); cursor: pointer; animation: pulseBtn 2s infinite;}
+        .brand-logo { font-size: 24px; font-weight: 900; font-style: italic; background: linear-gradient(to right, #fff, var(--alpha-gold)); -webkit-background-clip: text; color: transparent; letter-spacing: 1px; filter: drop-shadow(0 0 10px rgba(255,215,0,0.3)); }
+        .auth-status { display: flex; align-items: center; gap: 8px; font-family: var(--font-data); font-size: 10px; color: var(--neon-cyan); background: rgba(0, 229, 255, 0.1); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(0, 229, 255, 0.3); letter-spacing: 1px;}
+        .auth-status i { display: inline-block; width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan); animation: pulseDot 1.5s infinite; }
 
-        /* --- NEW: Aviator/Crash Multiplier History Bar --- */
+        /* --- Aviator / Crash Multipliers --- */
         .crash-history { display: flex; gap: 8px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; border-bottom: 1px solid rgba(255,255,255,0.05); margin-top: -10px;}
         .crash-history::-webkit-scrollbar { display: none; }
-        .mul-pill { font-family: var(--font-data); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); }
+        .mul-pill { font-family: var(--font-data); font-size: 13px; font-weight: 700; padding: 4px 14px; border-radius: 8px; flex-shrink: 0; background: rgba(255,255,255,0.03); transition: 0.3s; }
+        .mul-epic { color: var(--neon-cyan); border: 1px solid rgba(0,229,255,0.4); background: rgba(0,229,255,0.08); box-shadow: 0 0 12px rgba(0,229,255,0.2);}
         .mul-high { color: var(--alpha-gold); border: 1px solid rgba(255,215,0,0.3); background: rgba(255,215,0,0.05); }
-        .mul-epic { color: var(--neon-cyan); border: 1px solid rgba(0,229,255,0.3); background: rgba(0,229,255,0.05); box-shadow: 0 0 10px rgba(0,229,255,0.2);}
-        .mul-low { color: #94a3b8; }
+        .mul-low { color: #64748b; border: 1px solid rgba(255,255,255,0.05); }
 
-        /* --- 3D Glass Jackpot Card --- */
-        .jackpot-hero { background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 20px; padding: 25px 20px; text-align: center; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
-        .jackpot-hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: var(--alpha-gold); filter: blur(50px); opacity: 0.3; }
-        .j-subtitle { font-family: var(--font-head); font-size: 12px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; }
-        .j-value { font-family: var(--font-data); font-size: 38px; font-weight: 800; color: var(--alpha-gold); text-shadow: 0 0 20px rgba(255,215,0,0.5); margin: 8px 0; letter-spacing: -1px; }
-        .j-tag { display: inline-block; background: rgba(0, 255, 102, 0.1); color: var(--alert-green); border: 1px solid rgba(0, 255, 102, 0.3); padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; animation: pulseText 1.5s infinite; }
+        /* --- 3D Glass Alpha Jackpot --- */
+        .jackpot-hero { background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 24px; padding: 30px 20px; text-align: center; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: var(--shadow-gold); position: relative; overflow: hidden; }
+        .j-subtitle { font-family: var(--font-head); font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; }
+        /* tabular-nums fixes numbers shifting horizontally when updating */
+        .j-value { font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: clamp(34px, 8vw, 42px); font-weight: 800; color: var(--alpha-gold); text-shadow: 0 0 25px rgba(255,215,0,0.6); margin: 10px 0; letter-spacing: -1px; }
+        .j-tag { display: inline-block; background: rgba(0, 255, 102, 0.1); color: var(--alert-green); border: 1px solid rgba(0, 255, 102, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- NEW: VIP Progress Bar --- */
-        .vip-tracker { width: 100%; margin-top: 15px; text-align: left; }
-        .vip-labels { display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+        /* Smooth Progress Bar */
+        .vip-tracker { width: 100%; margin-top: 20px; text-align: left; }
+        .vip-labels { display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font-head);}
         .vip-labels span:last-child { color: var(--alpha-gold); }
-        .progress-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
-        .progress-fill { width: 78%; height: 100%; background: linear-gradient(90deg, #b38600, var(--alpha-gold)); box-shadow: 0 0 10px var(--alpha-gold); border-radius: 10px; position: relative;}
-        .progress-fill::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); animation: sweepBar 2s infinite; }
+        .progress-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; position: relative;}
+        .progress-fill { width: 78%; height: 100%; background: linear-gradient(90deg, var(--alpha-gold-dark), var(--alpha-gold)); box-shadow: 0 0 10px var(--alpha-gold); border-radius: 10px; position: relative;}
+        .progress-fill::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent); animation: sweepShine 2s infinite; }
 
-        /* --- Ultimate WhatsApp CTA --- */
+        /* --- Ultimate WhatsApp CTA (Optimized Animations) --- */
         .cta-box { position: relative; margin-top: 5px; }
-        .btn-wa-ultra { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background: linear-gradient(135deg, #111, #222); border: 1px solid var(--alpha-gold); color: var(--alpha-gold); text-decoration: none; padding: 18px; border-radius: 16px; font-family: var(--font-head); font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,215,0,0.1); overflow: hidden;}
-        .btn-wa-ultra::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent); transform: skewX(-25deg); animation: sweepBar 3s infinite;}
-        .btn-wa-ultra:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(255,215,0,0.2); background: linear-gradient(135deg, #1a1a1a, #2a2a2a); }
+        .btn-wa-ultra { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background: linear-gradient(135deg, #0f172a, #1e293b); border: 1px solid var(--alpha-gold); color: var(--alpha-gold); text-decoration: none; padding: 18px; border-radius: 16px; font-family: var(--font-head); font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,215,0,0.1); overflow: hidden; will-change: transform;}
+        .btn-wa-ultra::before { content: ''; position: absolute; top: 0; left: 0; width: 200%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent); transform: skewX(-25deg) translateX(-150%); animation: sweepGlass 3s infinite; will-change: transform;}
+        .btn-wa-ultra:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(255,215,0,0.2); }
         .btn-wa-ultra svg { width: 28px; fill: var(--alpha-gold); }
+        .traders-live { text-align: center; margin-top: 12px; font-family: var(--font-data); font-size: 11px; color: #64748b; font-variant-numeric: tabular-nums;}
+        .traders-live span { color: var(--neon-cyan); font-weight: bold; text-shadow: 0 0 8px rgba(0,229,255,0.5);}
 
-        /* --- Alpha Terminal Market Data --- */
-        .terminal-panel { background: rgba(2, 6, 23, 0.7); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 16px; padding: 15px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
-        .terminal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,229,255,0.3); padding-bottom: 10px; }
-        .term-title { font-family: var(--font-head); font-size: 14px; color: var(--neon-cyan); font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;}
-        .term-title i { display: inline-block; width: 8px; height: 8px; background: var(--alert-red); border-radius: 50%; animation: pulseStatus 1s infinite;}
-        .term-vol { font-family: var(--font-data); font-size: 10px; color: #64748b; }
+        /* --- Alpha Protocol Engine Market --- */
+        .terminal-panel { background: rgba(2, 6, 23, 0.75); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 20px; padding: 18px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); backdrop-filter: blur(12px); }
+        .terminal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,229,255,0.2); padding-bottom: 12px; }
+        .term-title { font-family: var(--font-head); font-size: 13px; color: var(--neon-cyan); font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; text-transform: uppercase;}
+        .term-title i { display: inline-block; width: 8px; height: 8px; background: var(--alert-red); border-radius: 50%; box-shadow: 0 0 8px var(--alert-red); animation: pulseDot 1s infinite;}
+        .term-vol { font-family: var(--font-data); font-size: 11px; color: #94a3b8; }
 
-        .data-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
-        .data-row:last-child { border-bottom: none; }
-        .runner-col { display: flex; flex-direction: column; gap: 2px; }
-        .r-name { font-weight: 700; font-size: 14px; color: #f1f5f9; }
-        .r-meta { font-family: var(--font-data); font-size: 11px; color: var(--alpha-gold); }
+        .data-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .data-row:last-child { border-bottom: none; padding-bottom: 0;}
+        .runner-col { display: flex; flex-direction: column; gap: 4px; }
+        .r-name { font-weight: 700; font-size: 15px; color: #f8fafc; display: flex; align-items: center; gap: 8px;}
+        .r-meta { font-family: var(--font-data); font-size: 12px; color: var(--alpha-gold); font-weight: 600;}
 
         .odds-grid { display: flex; gap: 8px; }
-        .alpha-odd { width: 60px; height: 44px; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; transition: 0.2s;}
-        .alpha-odd .o-val { font-family: var(--font-data); font-size: 14px; font-weight: 800; color: #fff; z-index: 2;}
-        .alpha-odd .o-lbl { font-size: 9px; text-transform: uppercase; color: #94a3b8; font-weight: 600; z-index: 2; margin-top: 2px;}
+        .alpha-odd { width: 62px; height: 46px; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.6); position: relative; overflow: hidden; transition: transform 0.2s;}
+        .alpha-odd .o-val { font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 15px; font-weight: 800; color: #fff; z-index: 2;}
+        .alpha-odd .o-lbl { font-size: 9px; text-transform: uppercase; color: #94a3b8; font-weight: 700; z-index: 2; margin-top: 2px;}
         
-        .alpha-back { border-color: rgba(0, 229, 255, 0.4); box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1); }
+        .alpha-back { border: 1px solid rgba(0, 229, 255, 0.4); box-shadow: inset 0 0 12px rgba(0, 229, 255, 0.1); }
         .alpha-back .o-val { color: var(--neon-cyan); }
-        .alpha-lay { border-color: rgba(255, 51, 102, 0.4); box-shadow: inset 0 0 10px rgba(255, 51, 102, 0.1); }
+        .alpha-lay { border: 1px solid rgba(255, 51, 102, 0.4); box-shadow: inset 0 0 12px rgba(255, 51, 102, 0.1); }
         .alpha-lay .o-val { color: var(--alert-red); }
 
-        /* Color sweeps for live updates */
-        .alpha-odd::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition:0.3s; z-index: 1;}
-        .update-up::after { background: rgba(0, 255, 102, 0.3); opacity: 1; }
-        .update-down::after { background: rgba(255, 51, 102, 0.3); opacity: 1; }
+        /* GPU friendly color sweeps for odds update */
+        .alpha-odd::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition: opacity 0.4s ease; z-index: 1;}
+        .alpha-odd.up-flash::after { background: rgba(0, 255, 102, 0.4); opacity: 1; }
+        .alpha-odd.down-flash::after { background: rgba(255, 51, 102, 0.4); opacity: 1; }
 
-        /* --- Feature Grid --- */
+        /* --- Secure Payments & Demo --- */
         .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .f-card { background: var(--bg-glass); border: 1px solid var(--border-glass); padding: 20px 15px; border-radius: 16px; text-align: center; backdrop-filter: blur(10px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center;}
-        .f-card:hover { border-color: var(--alpha-gold); transform: translateY(-5px); }
-        .f-icon { font-size: 26px; filter: drop-shadow(0 0 10px rgba(255,215,0,0.4)); margin-bottom: 10px; }
-        .f-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: #f8fafc; text-transform: uppercase; margin-bottom: 5px; }
-        .f-desc { font-size: 11px; color: #94a3b8; line-height: 1.4; }
-        .f-hl { font-family: var(--font-data); color: var(--alert-green); font-size: 16px; font-weight: 800; margin-top: 8px; }
+        .f-card { background: var(--bg-glass); border: 1px solid var(--border-glass); padding: 22px 15px; border-radius: 20px; text-align: center; backdrop-filter: blur(12px); box-shadow: 0 10px 25px rgba(0,0,0,0.4); transition: transform 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; will-change: transform;}
+        .f-card:hover { border-color: var(--alpha-gold); transform: translateY(-4px); }
+        .f-icon { font-size: 28px; filter: drop-shadow(0 0 12px rgba(255,215,0,0.5)); margin-bottom: 12px; }
+        .f-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: #f8fafc; text-transform: uppercase; margin-bottom: 6px; }
+        .f-desc { font-size: 11px; color: #94a3b8; line-height: 1.5; font-weight: 500;}
+        .f-hl { font-family: var(--font-data); color: var(--neon-cyan); font-size: 12px; font-weight: 700; margin-top: 10px; background: rgba(0,229,255,0.1); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(0,229,255,0.2);}
 
-        .demo-pass { background: rgba(0,0,0,0.5); padding: 8px; border-radius: 8px; width: 100%; border: 1px solid rgba(255,255,255,0.1); margin-top: 8px;}
+        .demo-pass { background: rgba(0,0,0,0.6); padding: 10px; border-radius: 8px; width: 100%; border: 1px solid rgba(255,255,255,0.08); margin-top: 10px;}
         .d-row { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 11px; color: #e2e8f0; margin: 4px 0;}
-        .d-row span { color: var(--alpha-gold); }
+        .d-row span { color: var(--alpha-gold); font-weight: 800;}
+        .demo-btn { margin-top: 10px; display: inline-block; font-size: 11px; color: var(--alpha-gold); text-decoration: none; font-family: var(--font-head); font-weight: 700; text-transform: uppercase; padding-bottom: 2px; border-bottom: 1px solid var(--alpha-gold); transition: 0.3s;}
+        .demo-btn:hover { color: #fff; border-color: #fff;}
 
-        /* --- Dynamic Floating Bottom Dock --- */
-        .bottom-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; display: flex; justify-content: space-around; align-items: center; padding: 12px 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); z-index: 1000; }
-        .dock-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #64748b; text-decoration: none; transition: 0.3s; width: 65px; position: relative;}
+        /* --- Floating Bottom Dock --- */
+        .bottom-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 420px; background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; display: flex; justify-content: space-around; align-items: center; padding: 14px 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.9); z-index: 1000; }
+        .dock-btn { display: flex; flex-direction: column; align-items: center; gap: 5px; color: #64748b; text-decoration: none; transition: 0.3s; width: 65px; position: relative;}
         .dock-btn.active { color: var(--alpha-gold); }
-        .d-icon { font-size: 20px; transition: 0.3s; opacity: 0.6; filter: grayscale(1); }
-        .dock-btn.active .d-icon { opacity: 1; filter: grayscale(0) drop-shadow(0 0 10px rgba(255,215,0,0.6)); transform: translateY(-4px); }
+        .d-icon { font-size: 22px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0.7; filter: grayscale(1); }
+        .dock-btn.active .d-icon { opacity: 1; filter: grayscale(0) drop-shadow(0 0 10px rgba(255,215,0,0.6)); transform: translateY(-5px); }
         .d-lbl { font-family: var(--font-head); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
-        
-        .dock-btn.active::after { content: ''; position: absolute; bottom: -12px; width: 20px; height: 3px; background: var(--alpha-gold); border-radius: 3px; box-shadow: 0 0 10px var(--alpha-gold); }
+        .dock-btn.active::after { content: ''; position: absolute; bottom: -14px; width: 24px; height: 3px; background: var(--alpha-gold); border-radius: 3px; box-shadow: 0 0 10px var(--alpha-gold); }
 
-        /* Smart Notification Toast */
-        .alpha-toast { position: fixed; top: 20px; right: -100%; background: rgba(15, 23, 42, 0.95); border-left: 4px solid var(--alert-green); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.6); backdrop-filter: blur(10px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .alpha-toast.show { right: 20px; }
-        .t-avatar { width: 35px; height: 35px; background: rgba(0,255,102,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 18px; border: 1px solid rgba(0,255,102,0.3);}
+        /* Notification Toast */
+        .alpha-toast { position: fixed; top: 20px; right: 20px; background: rgba(15, 23, 42, 0.95); border-left: 4px solid var(--alert-green); padding: 14px 18px; border-radius: 12px; display: flex; align-items: center; gap: 15px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.6); backdrop-filter: blur(10px); transform: translateX(150%); opacity: 0; transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s; will-change: transform, opacity;}
+        .alpha-toast.show { transform: translateX(0); opacity: 1; }
+        .t-avatar { width: 36px; height: 36px; background: rgba(0,255,102,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 18px; border: 1px solid rgba(0,255,102,0.3);}
         .t-col { display: flex; flex-direction: column; }
-        .t-user { font-family: var(--font-head); font-size: 12px; color: #94a3b8; font-weight: 700; }
+        .t-user { font-family: var(--font-head); font-size: 11px; color: #94a3b8; font-weight: 700; text-transform: uppercase;}
         .t-user span { color: #fff; }
         .t-amt { font-family: var(--font-data); font-size: 16px; font-weight: 800; color: var(--alert-green); }
 
         /* Animations */
-        @keyframes floatOrb { 0% { transform: translate(0,0); } 100% { transform: translate(10%, 10%); } }
-        @keyframes pulseBtn { 0%, 100% { box-shadow: 0 0 10px rgba(255,215,0,0.4); } 50% { box-shadow: 0 0 20px rgba(255,215,0,0.8); } }
-        @keyframes pulseStatus { 0%, 100% { opacity: 1; box-shadow: 0 0 8px currentColor; } 50% { opacity: 0.4; box-shadow: none; } }
-        @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-        @keyframes sweepBar { 0% { left: -100%; } 100% { left: 200%; } }
+        @keyframes sweepShine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes sweepGlass { 0% { transform: skewX(-25deg) translateX(-150%); } 100% { transform: skewX(-25deg) translateX(250%); } }
+        @keyframes pulseDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
     </style>
 </head>
 <body>
 
-    <div class="orb-1"></div>
-    <div class="orb-2"></div>
-
     <div class="alpha-toast" id="alpha-toast">
         <div class="t-avatar">💸</div>
         <div class="t-col">
-            <div class="t-user">Cashout by <span id="t-name">PlayerX</span></div>
-            <div class="t-amt" id="t-amt">₹55,000</div>
+            <div class="t-user">Cashout by <span id="t-name">UserX</span></div>
+            <div class="t-amt" id="t-amt">₹0</div>
         </div>
     </div>
 
     <div class="app-layout">
         
-        <nav class="top-bar">
-            <div class="brand-logo">FAIRPLAY</div>
-            <div class="auth-btns">
-                <button class="btn-ghost">Login</button>
-                <button class="btn-glow">Join VIP</button>
+        <nav class="top-bar anim-enter">
+            <div class="brand-logo">FAIRPLAY2026</div>
+            <div class="auth-status">
+                <i></i> ALPHA-10 NODE ACTIVE
             </div>
         </nav>
 
-        <div class="crash-history">
+        <div class="crash-history anim-enter d-1" id="crash-strip">
             <div class="mul-pill mul-epic">15.4x</div>
             <div class="mul-pill mul-high">2.1x</div>
             <div class="mul-pill mul-high">3.5x</div>
@@ -175,39 +193,39 @@
             <div class="mul-pill mul-low">1.3x</div>
         </div>
 
-        <div class="jackpot-hero">
-            <div class="j-subtitle">Global Sports Jackpot</div>
+        <div class="jackpot-hero anim-enter d-2">
+            <div class="j-subtitle">Alpha-10 Global Jackpot</div>
             <div class="j-value" id="jackpot-counter">3,45,67,890</div>
-            <div class="j-tag">Guaranteed Drop Tonight</div>
+            <div class="j-tag">Smart Contract Verified</div>
             
             <div class="vip-tracker">
-                <div class="vip-labels"><span>Current: Gold</span> <span>Next: Platinum (78%)</span></div>
+                <div class="vip-labels"><span>Tier: Gold Trader</span> <span>Platinum (78%)</span></div>
                 <div class="progress-bg">
                     <div class="progress-fill"></div>
                 </div>
             </div>
         </div>
 
-        <div class="cta-box">
+        <div class="cta-box anim-enter d-3">
             <a href="https://wa.me/919759066418?text=Hello%20Fairplay,%20I%20need%20Premium%20ID" class="btn-wa-ultra" target="_blank">
                 <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.395 0 .01 5.385.01 12.037c0 2.125.546 4.2 1.583 6.035L0 24l6.105-1.602a11.834 11.834 0 005.937 1.598h.005c6.654 0 12.04-5.385 12.04-12.037 0-3.22-1.252-6.248-3.528-8.523z"/></svg>
-                Generate ID via WhatsApp
+                Generate VIP ID Now
             </a>
-            <div style="text-align: center; margin-top: 10px; font-family: var(--font-data); font-size: 11px; color: #64748b;">
-                Active Traders: <span id="active-traders" style="color: var(--neon-cyan); font-weight: bold;">14,520</span>
+            <div class="traders-live">
+                Terminal Active Traders: <span id="active-traders">14,520</span>
             </div>
         </div>
 
-        <div class="terminal-panel">
+        <div class="terminal-panel anim-enter d-4">
             <div class="terminal-header">
-                <div class="term-title"><i></i> ALPHA PROTOCOL ODDS</div>
+                <div class="term-title"><i></i> Alpha Protocol Engine</div>
                 <div class="term-vol">LIQ: ₹4.2Cr</div>
             </div>
 
             <div class="data-row">
                 <div class="runner-col">
-                    <div class="r-name">India</div>
-                    <div class="r-meta">145/2 (15.2)</div>
+                    <div class="r-name">India 🏏</div>
+                    <div class="r-meta">145/2 (15.2 Ov)</div>
                 </div>
                 <div class="odds-grid">
                     <div class="alpha-odd alpha-back" id="ap-ind-b">
@@ -221,8 +239,8 @@
 
             <div class="data-row">
                 <div class="runner-col">
-                    <div class="r-name">Australia</div>
-                    <div class="r-meta">0/0 (0.0)</div>
+                    <div class="r-name">Australia 🏏</div>
+                    <div class="r-meta">0/0 (0.0 Ov)</div>
                 </div>
                 <div class="odds-grid">
                     <div class="alpha-odd alpha-back" id="ap-aus-b">
@@ -235,27 +253,27 @@
             </div>
         </div>
 
-        <div class="feature-grid">
+        <div class="feature-grid anim-enter d-5">
             <div class="f-card">
-                <div class="f-icon">🎲</div>
-                <div class="f-title">Live Casino</div>
-                <div class="f-desc">Roulette, Teen Patti, Baccarat & more</div>
-                <div class="f-hl">24x7 Live</div>
+                <div class="f-icon">⚡</div>
+                <div class="f-title">Web3 & UPI</div>
+                <div class="f-desc">Seamless deposits via Bank, UPI & USDT/SOL.</div>
+                <div class="f-hl">Instant Withdraw</div>
             </div>
 
             <div class="f-card">
-                <div class="f-icon">🔑</div>
-                <div class="f-title">Demo Access</div>
+                <div class="f-icon">🛡️</div>
+                <div class="f-title">Demo Panel</div>
                 <div class="demo-pass">
-                    <div class="d-row">User: <span>Demo666</span></div>
-                    <div class="d-row">Pass: <span>Fairplay@123</span></div>
+                    <div class="d-row">ID: <span>Demo666</span></div>
+                    <div class="d-row">PW: <span>Fairplay@123</span></div>
                 </div>
-                <a href="https://fairplay2026.com/exchange_sports/inplay" target="_blank" style="margin-top:8px; font-size:10px; color:var(--alpha-gold); text-decoration:none; font-family:var(--font-head); font-weight:700; text-transform:uppercase;">Open Demo ➔</a>
+                <a href="https://fairplay2026.com/exchange_sports/inplay" class="demo-btn" target="_blank">Access Demo ➔</a>
             </div>
         </div>
         
-        <div style="text-align: center; margin-top: 5px;">
-            <p style="font-family: var(--font-data); font-size: 10px; color: #475569;">© 2026 Fairplay VIP Protocol. 18+ Only.</p>
+        <div style="text-align: center; margin-top: 5px; opacity: 0.6;">
+            <p style="font-family: var(--font-data); font-size: 10px; color: #94a3b8;">© 2026 Fairplay Protocol. 18+ Only. Play Responsibly.</p>
         </div>
 
     </div>
@@ -267,7 +285,7 @@
         </a>
         <a href="#" class="dock-btn">
             <span class="d-icon">⚡</span>
-            <span class="d-lbl">Sports</span>
+            <span class="d-lbl">Terminal</span>
         </a>
         <a href="#" class="dock-btn">
             <span class="d-icon">🎰</span>
@@ -280,25 +298,24 @@
     </div>
 
     <script>
-        // 1. Data-Driven Jackpot Format
+        // 1. Data-Driven Jackpot Format (Fixed logic)
         let jVal = 34567890;
         const jEl = document.getElementById('jackpot-counter');
         setInterval(() => {
             jVal += Math.floor(Math.random() * 50) + 10;
-            // Format to look like raw data ticking
-            let str = jVal.toString();
-            jEl.innerText = str.substring(0,1) + "," + str.substring(1,3) + "," + str.substring(3,5) + "," + str.substring(5);
-        }, 250);
+            // Clean local string format for India (e.g. 3,45,67,890)
+            jEl.innerText = jVal.toLocaleString('en-IN');
+        }, 300);
 
         // 2. Active Traders Ticker
         let tVal = 14520;
         const tEl = document.getElementById('active-traders');
         setInterval(() => {
-            tVal += Math.floor(Math.random() * 9) - 4;
+            tVal += Math.floor(Math.random() * 11) - 5;
             tEl.innerText = tVal.toLocaleString('en-IN');
-        }, 1800);
+        }, 2000);
 
-        // 3. Alpha Protocol Odds Engine
+        // 3. Alpha Protocol Odds Engine (Optimized DOM updates)
         const engineOdds = [
             { b: document.getElementById('ap-ind-b'), l: document.getElementById('ap-ind-l'), val: 1.85 },
             { b: document.getElementById('ap-aus-b'), l: document.getElementById('ap-aus-l'), val: 2.10 }
@@ -317,52 +334,57 @@
                     bVal.innerText = odd.val.toFixed(2);
                     lVal.innerText = (odd.val + 0.02).toFixed(2);
 
-                    let flash = isUp ? 'update-up' : 'update-down';
-                    odd.b.classList.add(flash); odd.l.classList.add(flash);
+                    let flash = isUp ? 'up-flash' : 'down-flash';
                     
-                    setTimeout(() => {
-                        odd.b.classList.remove(flash); odd.l.classList.remove(flash);
-                    }, 400);
+                    // Force DOM reflow for CSS animation restart
+                    odd.b.classList.remove('up-flash', 'down-flash');
+                    odd.l.classList.remove('up-flash', 'down-flash');
+                    void odd.b.offsetWidth;
+                    
+                    odd.b.classList.add(flash);
+                    odd.l.classList.add(flash);
                 }
             });
-        }, 2000);
+        }, 2500);
 
         // 4. Smart Toast System
-        const users = ["Rahul_99", "Alpha_King", "VikramV", "Priya_Pro", "BetMaster", "Karan_X"];
+        const users = ["Rahul_99", "Alpha_King", "Vikram_Pro", "Priya_VIP", "Crypto_Bet", "Karan_X"];
         const toast = document.getElementById('alpha-toast');
         function triggerToast() {
             document.getElementById('t-name').innerText = users[Math.floor(Math.random() * users.length)];
-            document.getElementById('t-amt').innerText = "₹" + (Math.floor(Math.random() * 250) + 10).toLocaleString('en-IN') + ",000";
+            document.getElementById('t-amt').innerText = "₹" + (Math.floor(Math.random() * 250) + 15).toLocaleString('en-IN') + ",000";
             
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3500);
             
-            let nextRun = Math.floor(Math.random() * 6000) + 7000;
+            let nextRun = Math.floor(Math.random() * 5000) + 8000; // Random 8s to 13s gap
             setTimeout(triggerToast, nextRun);
         }
-        setTimeout(triggerToast, 3000);
+        setTimeout(triggerToast, 3500);
 
-        // 5. Aviator History Generator
-        const crashPills = document.querySelectorAll('.mul-pill');
+        // 5. Aviator History Generator (Bug Fixed)
+        const strip = document.getElementById('crash-strip');
         setInterval(() => {
-            if(Math.random() > 0.7) {
-                // Shift values right
-                for(let i = crashPills.length - 1; i > 0; i--) {
-                    crashPills[i].innerText = crashPills[i-1].innerText;
-                    crashPills[i].className = crashPills[i-1].className;
-                }
-                // Generate new value at 0
+            if(Math.random() > 0.6) {
+                // Generate new value
                 let newVal = (Math.random() * 4) + 1;
                 let newClass = 'mul-pill ';
-                if(newVal > 10 || Math.random() > 0.95) { newVal = (Math.random() * 20) + 5; newClass += 'mul-epic'; }
+                if(newVal > 10 || Math.random() > 0.95) { newVal = (Math.random() * 15) + 5; newClass += 'mul-epic'; }
                 else if(newVal > 2) { newClass += 'mul-high'; }
                 else { newClass += 'mul-low'; }
                 
-                crashPills[0].innerText = newVal.toFixed(2) + "x";
-                crashPills[0].className = newClass;
+                // Create new pill element
+                const newPill = document.createElement('div');
+                newPill.className = newClass;
+                newPill.innerText = newVal.toFixed(2) + "x";
+                
+                // Insert at beginning and remove last to keep 7 items
+                strip.insertBefore(newPill, strip.firstChild);
+                if(strip.children.length > 7) {
+                    strip.removeChild(strip.lastChild);
+                }
             }
-        }, 3500);
-
+        }, 3000);
     </script>
 </body>
 </html>
